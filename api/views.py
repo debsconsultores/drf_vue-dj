@@ -13,5 +13,5 @@ def prueba(request):
 
 
 class DocumentoViewSet(viewsets.ModelViewSet):
-    queryset = Documento.objects.all().order_bye('id')
+    queryset = Documento.objects.all().order_by('id')
     serializer_class = DocumentoSerializer
