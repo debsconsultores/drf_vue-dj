@@ -24,3 +24,65 @@ class Documento(models.Model):
     class Meta:
         verbose_name_plural = "Documentos"
 
+
+class Categoria(models.Model):
+    descripcion = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+        unique=True
+    )
+
+    def __str__(self):
+        return self.descripcion
+    
+    def save(self, **kwargs):
+        self.descripcion = self.descripcion.upper()
+        super(Categoria, self).save()
+
+    class Meta:
+        verbose_name_plural= "Categorías"
+
+
+class SubCategoria(models.Model):
+    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
+    descripcion = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+    )
+
+    def __str__(self):
+        return "{}-{}".format(self.categoria,self.descripcion)
+    
+    def save(self, **kwargs):
+        self.descripcion = self.descripcion.upper()
+        super(SubCategoria, self).save()
+
+    class Meta:
+        verbose_name_plural= "Sub Categorías"
+        unique_together=("categoria","descripcion")
+
+
+class Producto(models.Model):
+    codigo = models.CharField(
+        max_length=10,null=False,blank=False
+    )
+    descripcion = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+    )
+    existencia = models.IntegerField(default=0)
+    precio = models.FloatField(default=0)
+    subcategoria = models.ForeignKey(SubCategoria,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.descripcion
+    
+    def save(self, **kwargs):
+        self.descripcion = self.descripcion.upper()
+        super(Producto, self).save()
+
+    class Meta:
+        verbose_name_plural= "Productos"
