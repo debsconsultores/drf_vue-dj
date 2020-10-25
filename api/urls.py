@@ -7,13 +7,14 @@ from rest_framework_simplejwt.views import (
 
 from .views import prueba, DocumentoViewSet, \
     CategoriaViewSet, SubCategoriaViewSet, \
-    ProductoViewSet
+    ProductoViewSet, ProveedorViewSet
 
 router = routers.DefaultRouter()
 router.register(r'docs',DocumentoViewSet)
 router.register(r'categoria',CategoriaViewSet)
 router.register(r'subcategoria',SubCategoriaViewSet)
 router.register(r'producto',ProductoViewSet)
+router.register(r'proveedor',ProveedorViewSet)
 
 
 urlpatterns = [

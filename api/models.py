@@ -86,3 +86,24 @@ class Producto(models.Model):
 
     class Meta:
         verbose_name_plural= "Productos"
+
+
+class Proveedor(models.Model):
+    nombre = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+        unique=True
+    )
+    telefono = models.CharField(max_length=20,null=True,blank=True)
+    email = models.TextField(null=True,blank=True)
+
+    def __str__(self):
+        return self.nombre
+    
+    def save(self, **kwargs):
+        self.nombre = self.nombre.upper()
+        super(Proveedor, self).save()
+
+    class Meta:
+        verbose_name_plural= "Proveedores"
