@@ -4,11 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import viewsets
 from .models import Documento, Categoria, SubCategoria, Producto, \
-    Proveedor
+    Proveedor, ComprasEnc, ComprasDet
 
 from .serializer import DocumentoSerializer, CategoriaSerializer, \
     SubCategoriaSerializer, ProductoSerializer, \
-    ProveedorSerializer
+    ProveedorSerializer, \
+    ComprasDetSerializer, ComprasSerializer
 
 
 
@@ -46,3 +47,16 @@ class ProveedorViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Proveedor.objects.all().order_by('nombre')
     serializer_class = ProveedorSerializer
+
+
+
+class ComprasViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = ComprasEnc.objects.all().order_by('id')
+    serializer_class = ComprasSerializer
+
+
+class ComprasDetViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = ComprasDet.objects.all().order_by('id')
+    serializer_class = ComprasDetSerializer
