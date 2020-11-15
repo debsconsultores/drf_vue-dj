@@ -128,3 +128,26 @@ class ComprasEnc(ModeloEdit):
     
     class Meta:
         verbose_name_plural= "Encabezados de Compras"
+
+
+class ComprasDet(ModeloEdit):
+    cabecera = models.ForeignKey(ComprasEnc,related_name='detalle',on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto,on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField(default=0)
+    precio = models.FloatField(default=0)
+
+    @property
+    def subtotal(self):
+        return self.cantidad * self.precio
+
+    descuento = models.FloatField(default=0)
+
+    @property
+    def total(self):
+        return self.subtotal - self.descuento
+    
+    def __str__(self):
+        return '{}-{}-{}'.format(self.id,self.cabecera,self.producto)
+
+    class Meta:
+        verbose_name_plural= "Detalles de Compras"
