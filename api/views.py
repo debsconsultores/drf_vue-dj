@@ -38,7 +38,7 @@ class SubCategoriaViewSet(viewsets.ModelViewSet):
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     queryset = Producto.objects.all().order_by('descripcion')
     serializer_class = ProductoSerializer
 
