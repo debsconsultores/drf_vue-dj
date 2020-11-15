@@ -1,5 +1,14 @@
 from django.db import models
 
+
+class ModeloEdit(models.Model):
+    fc = models.DateTimeField(auto_now_add=True)
+    fm = models.DateTimeField(auto_now= True)
+
+    class Meta:
+        abstract = True
+
+
 class Documento(models.Model):
     nombre = models.CharField(
         max_length = 50,
@@ -107,3 +116,15 @@ class Proveedor(models.Model):
 
     class Meta:
         verbose_name_plural= "Proveedores"
+
+
+class ComprasEnc(ModeloEdit):
+    proveedor = models.ForeignKey(Proveedor,on_delete=models.CASCADE)
+    fecha = models.DateField(null=False,blank=False)
+
+    def __str__(self):
+        return str(self.id)
+
+    
+    class Meta:
+        verbose_name_plural= "Encabezados de Compras"
