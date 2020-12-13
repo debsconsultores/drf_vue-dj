@@ -8,7 +8,8 @@ from rest_framework_simplejwt.views import (
 from .views import prueba, DocumentoViewSet, \
     CategoriaViewSet, SubCategoriaViewSet, \
     ProductoViewSet, ProveedorViewSet, \
-    ComprasViewSet, ComprasDetViewSet
+    ComprasViewSet, ComprasDetViewSet, \
+    ClienteViewSet
 
 router = routers.DefaultRouter()
 router.register(r'docs',DocumentoViewSet)
@@ -18,6 +19,7 @@ router.register(r'producto',ProductoViewSet)
 router.register(r'proveedor',ProveedorViewSet)
 router.register(r'compras', ComprasViewSet)
 router.register(r'compras-detalle', ComprasDetViewSet)
+router.register(r'cliente', ClienteViewSet)
 
 urlpatterns = [
     # path('prueba',prueba,name="prueba")

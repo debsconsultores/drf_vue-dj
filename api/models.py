@@ -151,3 +151,25 @@ class ComprasDet(ModeloEdit):
 
     class Meta:
         verbose_name_plural= "Detalles de Compras"
+
+
+class Cliente(models.Model):
+    nombre = models.CharField(
+        max_length=200,
+        null=False,
+        blank=False,
+        unique=True
+    )
+    telefono = models.CharField(max_length=20,null=True,blank=True)
+    email = models.TextField(null=True,blank=True)
+    estado = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nombre
+
+    def save(self, **kwargs):
+        self.nombre = self.nombre.upper()
+        super(Cliente, self).save()
+
+    class Meta:
+        verbose_name_plural= "Clientes"
