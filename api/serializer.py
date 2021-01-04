@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Documento, Categoria, \
     SubCategoria, Producto, Proveedor, \
     ComprasDet, ComprasEnc, \
-    Cliente
+    Cliente, FacturaDet, FacturaEnc
 
 
 class DocumentoSerializer(serializers.ModelSerializer):
@@ -62,4 +62,19 @@ class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model=Cliente
         fields='__all__'
+
+
+
+class FacturasDetSerializer(serializers.ModelSerializer):
+    producto_descripcion = serializers.ReadOnlyField(source='producto.descripcion')
+    class Meta:
+        model=FacturaDet
+        fields=['cabecera','id','producto','cantidad','precio','subtotal','descuento','total',"producto_descripcion"]
+
+
+class FacturasSerializer(serializers.ModelSerializer):
+    detalle = FacturasDetSerializer(many=True, read_only=True)
+    class Meta:
+        model = FacturaEnc
+        fields = ['id','cliente','fecha', 'detalle']
 

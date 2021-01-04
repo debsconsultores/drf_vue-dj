@@ -4,14 +4,14 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import viewsets
 from .models import Documento, Categoria, SubCategoria, Producto, \
-    Proveedor, ComprasEnc, ComprasDet, Cliente
+    Proveedor, ComprasEnc, ComprasDet, Cliente, FacturaEnc, FacturaDet
 
 from .serializer import DocumentoSerializer, CategoriaSerializer, \
     SubCategoriaSerializer, ProductoSerializer, \
     ProveedorSerializer, \
     ComprasDetSerializer, ComprasSerializer, \
-    ClienteSerializer
-
+    ClienteSerializer, \
+    FacturasDetSerializer, FacturasSerializer
 
 
 
@@ -67,3 +67,17 @@ class ClienteViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Cliente.objects.all().order_by('nombre')
     serializer_class = ClienteSerializer
+
+
+
+class FacturasViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = FacturaEnc.objects.all().order_by('id')
+    serializer_class = FacturasSerializer
+
+
+class FacturasDetViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = FacturaDet.objects.all().order_by('id')
+    serializer_class = FacturasDetSerializer
+	
