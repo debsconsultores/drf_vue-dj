@@ -1,3 +1,5 @@
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.db import models
 
 
@@ -173,3 +175,26 @@ class Cliente(models.Model):
 
     class Meta:
         verbose_name_plural= "Clientes"
+
+
+
+# Signals de Compra
+@receiver(post_save,sender=ComprasDet)
+def vigila_guardar_detalle_compra(sender,instance,**kwargs):
+    id_producto = instance.producto.id
+
+    # print(id_producto,instance.cantidad)
+    prod = Producto.objects.get(id = id_producto)
+    if prod:
+        prod.existencia = int(prod.existencia) + int(instance.cantidad)
+        prod.save()
+
+
+@receiver(post_delete,sender=ComprasDet)
+def vigila_eliminar_detalle_compra(sender,instance,**kwargs):
+    id_producto = instance.producto.id
+    
+    prod = Producto.objects.filter(id = id_producto).first()
+    if prod:
+        prod.existencia -= int(instance.cantidad)
+        prod.save()
