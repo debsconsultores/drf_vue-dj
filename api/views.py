@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action, permission_classes
+from rest_framework.response import Response
 
 from rest_framework import viewsets
 from .models import Documento, Categoria, SubCategoria, Producto, \
@@ -64,9 +66,19 @@ class ComprasDetViewSet(viewsets.ModelViewSet):
 
 
 class ClienteViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     queryset = Cliente.objects.all().order_by('nombre')
     serializer_class = ClienteSerializer
+
+    @action(methods=['get'], detail=False,permission_classes=[],
+        url_path='by-name/(?P<nombre>[\w\ ]+)')
+    def by_name(self,request,pk=None,nombre=None):
+        print(nombre)
+        obj = Cliente.objects.filter(nombre__icontains=nombre,estado=True)
+        if not obj:
+            return Response({"detail":"No existe cliente buscado"})
+        serilizador = ClienteSerializer(obj,many=True)
+        return Response(serilizador.data)
 
 
 
